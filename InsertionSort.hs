@@ -31,8 +31,8 @@ insert v (x:xs)
 
 -- Things to prove
 
--- `insert x l` is a permutation of `x:l`: Not done
--- `sort l` is a permutation of `l`: Somewhat done: Inaccurate definition of Permutation
+-- `insert x l` is a permutation of `x:l`: Somewhat done: bad Permutation definition
+-- `sort l` is a permutation of `l`: Somewhat done: bad Permutation definition
 -- `insert x l` is sorted, given `l` is sorted: Done
 -- `sort l` is sorted: Done
 -- VFA has separate proofs of these four for its inductive definition of
