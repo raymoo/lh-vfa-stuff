@@ -20,8 +20,8 @@ notPerm = ([1,1], [1,2])
 goodPerm :: ([Int], [Int])
 goodPerm = ([1, 2, 3, 4], [3, 4, 2, 1])
 
-{-@ equalLengths :: xs:[a] -> ys:[a] -> { p:Proof | Permutation xs ys }
-                 -> { q:Proof | len xs = len ys } @-}
+{-@ equalLengths :: xs:[a] -> ys:[a] -> { _:Proof | Permutation xs ys }
+                 -> { _:Proof | len xs = len ys } @-}
 equalLengths :: [a] -> [a] -> Proof -> Proof
 equalLengths _ _ _ = trivial
 
