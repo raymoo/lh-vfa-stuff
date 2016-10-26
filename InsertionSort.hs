@@ -5,7 +5,7 @@ import qualified Data.Set as S
 
 -- The type of lists in ascending order, taken from "Putting Things in Order"
 -- [http://goto.ucsd.edu/~rjhala/liquid/haskell/blog/blog/2013/07/29/putting-things-in-order.lhs/]
--- This definition is essentially the "alternative" sorted definition given in VFA:
+-- This definition is similar in spirit to the "alternative" sorted definition given in VFA:
 {-
 Definition sorted' (al: list nat) :=
  ∀ i j, i < j < length al → nth i al 0 ≤ nth j al 0.
