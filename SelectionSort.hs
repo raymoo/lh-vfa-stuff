@@ -1,5 +1,8 @@
 module SelectionSort where
 
+{-@ LIQUID "--maxparams=5" @-}
+
+import ListUtil
 import Permutation
 import qualified Data.Set as S
 
@@ -16,6 +19,7 @@ select x (y:ys)
   | x <= y    = let (j, ys') = select x ys in (j, y:ys')
   | otherwise = let (j, ys') = select y ys in (j, x:ys')
 
+{-@ selsort :: xs:[a] -> { ys : [a] | Permutation xs ys } @-}
 selsort :: Ord a => [a] -> [a]
 selsort []     = []
 selsort (x:xs) = j : selsort xs'
@@ -23,7 +27,8 @@ selsort (x:xs) = j : selsort xs'
 
 -- Things to prove
 
--- If `(j, xs') = select x xs`, then `x:xs` and `j:xs'` are permutations: Not done
--- `selsort` is a permutation: Not done
+-- If `(j, xs') = select x xs`, then `x:xs` and `j:xs'` are permutations:
+--   Somewhat done: bad Permutation definition
+-- `selsort` is a permutation: Done
 -- If `(j, xs') = select x xs`, then `j` is less than or equal to all elements of xs': Not done
 -- `selsort xs` is sorted: Not done
