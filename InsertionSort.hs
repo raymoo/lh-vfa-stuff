@@ -1,5 +1,6 @@
 module InsertionSort where
 
+import ListUtil
 import Permutation
 import qualified Data.Set as S
 
@@ -10,7 +11,6 @@ import qualified Data.Set as S
 Definition sorted' (al: list nat) :=
  ∀ i j, i < j < length al → nth i al 0 ≤ nth j al 0.
 -}
-{-@ type IncrList a = [a] <{\xi xj -> xi <= xj}> @-}
 
 {-@ sort :: xs:[a] -> { ys:IncrList a | Permutation xs ys } @-}
 sort :: Ord a => [a] -> [a]
