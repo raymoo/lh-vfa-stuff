@@ -2,6 +2,7 @@ module BST where
 
 {-@ LIQUID "--higherorder" @-}
 {-@ LIQUID "--exact-data-cons" @-}
+{-@ LIQUID "--normalform" @-}
 
 import Language.Haskell.Liquid.ProofCombinators
 
@@ -83,35 +84,33 @@ elements is correct: Not done
 The operations respect the BST invariant: Done
 -}
 
-{-@ lookupEquiv :: t:_ -> m:{ _ | m = tAbs t} -> k:_ -> {m k = lookupTree k t} @-}
-lookupEquiv :: Ord k => Tree k v -> TotalMap k (Maybe v) -> k -> Proof
-lookupEquiv E m k = m k
-                    ==. tAbs E k
-                    ==. empty Nothing k
-                    ==. Nothing
-                    ==. lookupTree k E
-                    *** QED
-lookupEquiv (T k' v l r) m k
-  | k == k' = m k
-              ==. tAbs (T k' v l r) k
+{-@ lookupEquiv :: t:_ -> k:_ -> {tAbs t k = lookupTree k t} @-}
+lookupEquiv :: Ord k => Tree k v -> k -> Proof
+lookupEquiv E k = tAbs E k
+                  ==. empty Nothing k
+                  ==. Nothing
+                  ==. lookupTree k E
+                  *** QED
+lookupEquiv (T k' v l r) k
+  | k == k' = tAbs (T k' v l r) k
               ==. update k' (Just v) (combine k' (tAbs l) (tAbs r)) k
-              ==. Just v
+              ==. update k (Just v) (combine k (tAbs l) (tAbs r)) k
+              ==. Just v ∵ updateEq k (Just v) (combine k (tAbs l) (tAbs r))
               ==. lookupTree k (T k' v l r)
+              ==. lookupTree k (T k v l r)
               *** QED
-  | k < k' = m k
-             ==. tAbs (T k' v l r) k
+  | k < k' = tAbs (T k' v l r) k
              ==. update k' (Just v) (combine k' (tAbs l) (tAbs r)) k
              ==. combine k' (tAbs l) (tAbs r) k
              ==. tAbs l k
-             ==. lookupTree k l ∵ lookupEquiv l (tAbs l) k
+             ==. lookupTree k l ∵ lookupEquiv l k
              ==. lookupTree k (T k' v l r)
              *** QED
-  | otherwise = m k
-                ==. tAbs (T k' v l r) k
+  | otherwise = tAbs (T k' v l r) k
                 ==. update k' (Just v) (combine k' (tAbs l) (tAbs r)) k
                 ==. combine k' (tAbs l) (tAbs r) k
                 ==. tAbs r k
-                ==. lookupTree k r ∵ lookupEquiv r (tAbs r) k
+                ==. lookupTree k r ∵ lookupEquiv r k
                 ==. lookupTree k (T k' v l r)
                 *** QED
                               
